@@ -17,12 +17,50 @@ Banco de Alimentos Autor- Bruno
 COP 30 - (deve colocar o que é e como se conecta com Fazenda Alimentar)   Autor - Klaus
 
 
+A Conferência das Partes (COP – Conference of the Parties) é o encontro anual da Convenção-Quadro das Nações Unidas para discutir e debater as mudanças climáticas, encontrar soluções para os problemas ambientais e negociar acordos.
+Em 11 de dezembro de 2023, o Brasil foi confirmado como sede para a COP30, que será realizada em Belém - PA, entre os dias 10 e 21 de novembro de 2025.
+A participação do Brasil foi fundamental nas discussões da COP27, realizada no Egito em 2022, tendo nosso país assumindo um papel importante no combate às mudanças climáticas e na preservação do meio ambiente, dando ênfase na Amazônia.
+Segundo a ministra do Meio Ambiente, Marina Silva, a COP30 será crucial para a meta de limitação do aquecimento global a 1,5ºC (graus Celsius). "Sabemos que a COP30 será chave para a definição das novas NDCs (Contribuições Nacionalmente Determinadas)" afirmou a ministra.
+A COP30 é a oportunidade de expor a agricultura brasileira de baixo carbono para o mundo e, captar investimentos para a expansão dessas técnicas com o aproveitamento de áreas já abertas. Mário Lewandowski, da AGBI, afirmou que "Se conseguirmos mostrar ao mundo como a nossa agricultura de baixo carbono é uma alternativa para garantir segurança alimentar, a estabilidade do produtor e ajudar nas mudanças climáticas, daí poderemos mostrar como o financiamento desses estrangeiros pode nos permitir resolver muitps problemas que enxergamos neste ano". Para Lewandowski, é necessário convencer investidores do "tamanho da necessidade desse capital" para adequar a matriz produtiva o máximo possível.
+
+
+
+Fontes:
+Senado Notícias/Senado Federal
+Gov.br
+Oeco.org.br
+Uol.com.br
+Globo Rural
+
+
 
 
 
 LGPD (Lei Geral de Proteção de dados) - relativo ao cadastro de fornecedores e clientes  Autor Klaus
 
 
+A LGPD (Lei Geral de Proteção de Dados) Regulamenta o tratamento de dados pessoais no Brasil e garante a segurança dessas informações. Os dados pessoais, no contexto da LGPD, referem-se às informações relativas à pessoa, ou seja, que permitem a sua identificação. São considerados, nesse sentido, o nome do titular, o número do RG e do CPF, o gênero, a data e o local de nascimento, a filiação, o telefone, o endereço residencial, o cartão ou os dados bancários.
+A LGPD exige 5 coisas das empresas:
+* Finalidade
+* Qualidade dos dados
+* Prevenção
+* Não discriminação
+* Livre acesso
+O titular deve concordar, de forma explícita e inequívoca, que seus dados sejam tratados. E o empresário deve fazer esse tratamento levando em conta princípios da LGPD.
+Esta Lei aplica-se a qualquer operação de tratamento de dados pessoais, realizado por pessoa física ou jurídica e alcança instituições e organizações tanto públicas quanto privadas. Mas, há exceções, visto que a LGPD não se aplica ao tratamento de dados pessoais para as seguintes finalidades:
+* Particular
+* Artística ou Jornalística
+* Acadêmica
+* Segurança Pública
+* Defesa Nacional
+* Segurança do Estado
+* Atividades de investigação e repressão de infrações penais
+
+Fontes:
+tre-pr.jus.br
+machadoemallmann.com.br
+serpro.gov.br
+lgpd.ms.gov.br
 
 
 
