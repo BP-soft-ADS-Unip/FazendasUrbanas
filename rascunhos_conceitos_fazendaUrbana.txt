@@ -27,5 +27,82 @@ LGPD (Lei Geral de Proteção de dados) - relativo ao cadastro de fornecedores e
 
 
 ODS (Objetivo de desenvolvimento sustentável)  Autor - Lucas
+A ODS (Obejetivos de Desenvolvimento Sustentável) criada em setempro de 2015 pela ONU é composta por 17 objetivos e 169 metas para serem alcançadas até 2030.
 
+Temos quatro temas principais nna ODS, sendo eles:
+
+Ambiental: aborda a proteção e conservação do ecossistema do planeta, com iniciativas que vão desde a interrupção do desmatamento, preservação da fauna e flora, uso sustentável dos mares e oceanos até a implementação de estratégias eficazes contra alterações climáticas.
+
+Social: São as necessidades humanas, como saúde, educação, etc...
+
+Econômico: aborda a utilização e a exaustão dos recursos naturais, a geração de detritos, o consumo de energia, entre outros.
+
+Institucional: refere-se à habilidade de implementar os ODS.
+
+História da ODS.
+
+Retrata um grupos de metas que surgiram após discussões e reflexões globais sobre o cenário pós-Guerra Fria. Posteriormente neste período, houveram diversos cortes nos orçamentos das agências de assistência ao desenvolvimento, afetando muitos países que dependiam dessa unica ajuda. Nesse atual situação, ONU e a OCDE (Organização para a Cooperação e Desenvolvimento Econômico) começaram a debater metas relacionadas ao bem-estar social, econômico, institucional e ambiental.
+O documento “Shaping the 21th Century: The Contribution of Development Cooperation” ou “Moldando o Século 21: A Contribuição da Cooperação para o Desenvolvimento” foi publicado peça OECD em 1996, cuja redação consolidava discussões anteriores, como a da Rio 92.
+Simultaneamente, era discutido uma teoria do desenvolvimento, com contribuições importantes de Amartya Sen como o prêmio Nobel de Economia, e um dos desenvolvedores do IDH (Índice de Desenvolvimento Humano).
+
+Com o laçamento em 1998, com suas três atrubutos (renda, educação e saúde), buscou oferecer uma alternativa ao PIB como indicio de evolução. Em setembro de 2000, 189 países concordaram em assumiram o compromisso de combater a extrema pobreza e desafios sociais, levando à criação da ODM (Objetivos de Desenvolvimento do Milênio), com oito metas e 21 indicadores a serem alcançados até 2015.
+Posteriormente a ODS substituiu a ODM com temas mais amplos e detalhados, abordando ainda a pobreza, mas tamebm, desigualdade, desenvolvimento econômico, clima, instituições e segurança. No entanto, sua implementação enfrenta desafios, como a abordagem discreta em fóruns internacionais e a dificuldade política e financeira em nível nacional.
+Mesmo com as multiplas dificuldades, a ODS têm um grande potencial de mobilizar esforços em diversas áreas, promovendo grandes oportunidades para conexões entre setores e forças políticas.
+
+As 17 metas da ODS são:
+1. Erradicação da pobreza
+Acabar com a pobreza em suas formas, em todos os lugares.
+
+2. Erradicação da fome
+Acabar com a fome e a inanição, alcançar a segurança alimentar, melhorar a nutrição e promover a agricultura sustentável.
+
+3. Saúde e Bem-Estar
+Assegurar uma vida saudável e promover o bem-estar para todos.
+
+4. Educação de qualidade
+Garantir a educação inclusiva e equitativa de qualidade e promover oportunidades de aprendizagem para qualquer pessoa.
+
+5. Igualdade de gênero
+Alcançar a igualdade de gênero e empoderar todas as mulheres.
+
+6. Água Potável e Saneamento
+Proporcionar a disponibilidade e gestão sustentável da água e saneamento básico a todos.
+
+7. Energia acessível e limpa
+Assegurar o acesso de energia sustentável e com um preço acessível à energia para todos.
+
+8. Trabalho decente e crescimento econômico
+Promover o crescimento econômico, inclusivo e sustentável, o emprego pleno e produtivo e o trabalho decente para todos.
+
+9. Inovação e infraestrutura
+Construir infraestruturas resilientes, promover a industrialização inclusiva e sustentável e fomentar a inovação.
+
+10. Redução das desigualdades
+Reduzir a desigualdade dentro dos países e entre eles.
+
+11. Cidades e comunidades sustentáveis
+Tornar as cidades e os assentamentos humanos inclusivos, seguros, resilientes e sustentáveis.
+
+12. Consumo e produção responsáveis
+Possibilitar padrões de produção e de consumo sustentáveis.
+
+13. Ação contra a Mudança Global do Clima
+Tomar medidas urgentes para combater a mudança do climatica.
+
+14. Vida na Água
+Conservar e promover o uso sustentável dos oceanos, dos mares e dos recursos marinhos para o desenvolvimento sustentável.
+
+15. Vida Terrestre
+Proteger, recuperar e promover o uso sustentável dos ecossistemas terrestres, gerir de forma sustentável as florestas, combater a desertificação, deter e reverter a degradação da terra e deter a perda.
+
+16. Paz, Justiça e Instituições Eficazes
+Promover sociedades pacíficas e inclusivas para o desenvolvimento sustentável, proporcionar o acesso à justiça para todos e construir instituições eficazes, responsáveis e inclusivas.
+
+17. Parcerias e Meios de Implementação
+Fortalecer os meios de implementação e a parceria global para o desenvolvimento sustentável.
+
+Fontes: https://www.estrategiaods.org.br/conheca-os-ods/
+https://febrace.org.br/inspire-se/17-ods-da-onu/
+https://odsbrasil.gov.br/
+https://www.ipea.gov.br/ods/
 
