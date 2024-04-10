@@ -1,0 +1,41 @@
+Controle de Forncedores:
+- Cadastrar Fornecedores;
+- Controle de Entregas;
+
+
+Controle de Produção:
+- Cotrole de Insumos(Adubo, Ferramentas, Sementes..)
+- Controle de Entrada e Saída de Alimentos;
+- Quantidade Produzida;
+- COntrole de Qualidade de Alimentos;
+
+Controle de Vendas:
+- Cadastrar Clientes;
+- Controle de Valores Conforme safra;
+- Controle Financeiro;
+
+Controle Tipo de Alimentos:
+- Cadastro de Localização Fornecedor;
+- Cadastro de Tipos de Alimentos(o que plantar, quando plantar);
+- Cadastro de Tipos de Clime por Região;
+
+Gerar Relatório:
+
+- Feedback (Cliente>Produtor e Produtor>Fornecedor);
+- Histórico de Vendas;
+
+
+
+O que deve ser o Software:
+- Informativo, entender o que é fazenda Urbana;
+- Dicas para montar sua Fazenda Urbana(O que plantar);
+- Informativo sobre o Disperdício de alimentos (Banco de Alimentos);
+- Indicar Fornecedor;
+- Informativo sobre a Concientização da importância da fazenda Urbana;
+- Controle de Disperdício/Doação de Alimentos;
+- Links de mais informações(saiba mais...);
+- Personalização do sistêma (Cliente, Produtor(Dono e Entregador));
+- Controle de Transportadores;
+- Informativo de Inicio de safra, melhores preços e produtos;
+
+
