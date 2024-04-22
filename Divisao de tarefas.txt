@@ -1,0 +1,15 @@
+Font End - Kayky e Vinicius -{ Toda parte relacionada as matérias de Interface com o usuário e Engenharia de Software e formatação do trabalho}
+				- Formatação da parte escrita;
+				- Planilha de testes;
+				- Projeto de telas;
+				- Apresentação de Power Point e Formatação do Manual do software;
+
+Diagramas/ Regras do Negócio - Klaus e Lucas
+	- Parte relacionada a Análise de Sistemas Orientada a Objetos;
+	- Diagrams UML: Casos de usos, Classe Sequencia, implantação;
+	- Estimativa de Viabilidade e Gestão estratégia de Recursos Humanos;
+
+Back End - Marcelino, Kell e Bruno 
+	- Banco de Dados: Diagrama ER, Scripts Criação e carga de dados de testes.
+	- Poc (codificação em c#),
+	-  Atividade extensionista: Marcar visita em (Consultoria de TI) e fazer relatório.

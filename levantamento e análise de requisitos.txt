@@ -1,0 +1,25 @@
+levantamento de requisitos e regras de negócios
+
+- Confecção de software para controle de fornecedores, produção e venda de produtos produzidos por fazendas urbanas de pequeno portes.
+
+-O aplicativo conectará pequenos produtores de fazendas urbanas (hortas), que cultivam em pequenas propriedades (na própria residência ou pequenos lotes urbanos),
+ e providenciará que esses vendam seus excedentes para o consumidor final (clientes que consumirão o produto).
+
+-nesse sentido, tanto o consumidor (cliente) como o produtor (fornecedor) serão pessoa física.
+
+-O cliente comprará o(s) produtos(s), por meio, do aplicativo do produtor e poderá buscar pessoalmente o produto no endereço 
+ do produtor.
+
+-cliente e produtor deverão se cadastrar usando email como chave_primária e senha.
+
+- cliente e produtor só poderão cadastrar um número de celular ao qual deverá ter acesso ao whatsapp
+
+- o produtor terá a disposição relatório em que constará a produtividade, vendas, créditos, e melhor
+  cultura a ser plantadas conforme localidade e mês do ano (via api - de inteligência artificial)
+
+- O controle de produção será feito relacionado a área plantada, colheita feita, uso ou não de insumos, indicando ainda data do plantio e colheita,
+  período de crescimento .
+
+* Casos de uso
+- Produtor podera: realizar cadastro, login, consultar lista de preço de alimentos a venda, endereço das fazendas urbansas
+                   
