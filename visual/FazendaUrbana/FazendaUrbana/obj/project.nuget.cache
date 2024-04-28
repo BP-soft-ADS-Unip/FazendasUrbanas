@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "XDyv6+uRFK7c2Gvz5LZZ7Si10+mGZkbDa/CwcxfAhvqNjXsRBAUeO/ABHl245T+VQKDyaMOEd4sKOiuzxJJf9Q==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\23yj\\Documents\\ADS\\pim_2\\FazendasUrbanas\\visual\\FazendaUrbana\\FazendaUrbana\\FazendaUrbana.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\23yj\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\23yj\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\23yj\\.nuget\\packages\\npgsql\\8.0.2\\npgsql.8.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}

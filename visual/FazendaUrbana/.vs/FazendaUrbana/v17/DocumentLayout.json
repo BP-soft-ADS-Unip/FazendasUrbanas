@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\23yj\\Documents\\ADS\\pim_2\\FazendasUrbanas\\visual\\FazendaUrbana\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{69027181-092B-4AE7-AABF-6E7D5F794FE0}|FazendaUrbana\\FazendaUrbana.csproj|c:\\users\\23yj\\documents\\ads\\pim_2\\fazendasurbanas\\visual\\fazendaurbana\\fazendaurbana\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{69027181-092B-4AE7-AABF-6E7D5F794FE0}|FazendaUrbana\\FazendaUrbana.csproj|solutionrelative:fazendaurbana\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{69027181-092B-4AE7-AABF-6E7D5F794FE0}|FazendaUrbana\\FazendaUrbana.csproj|c:\\users\\23yj\\documents\\ads\\pim_2\\fazendasurbanas\\visual\\fazendaurbana\\fazendaurbana\\bd.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{69027181-092B-4AE7-AABF-6E7D5F794FE0}|FazendaUrbana\\FazendaUrbana.csproj|solutionrelative:fazendaurbana\\bd.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{69027181-092B-4AE7-AABF-6E7D5F794FE0}|FazendaUrbana\\FazendaUrbana.csproj|c:\\users\\23yj\\documents\\ads\\pim_2\\fazendasurbanas\\visual\\fazendaurbana\\fazendaurbana\\produtor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{69027181-092B-4AE7-AABF-6E7D5F794FE0}|FazendaUrbana\\FazendaUrbana.csproj|solutionrelative:fazendaurbana\\produtor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BD.cs",
+              "DocumentMoniker": "C:\\Users\\23yj\\Documents\\ADS\\pim_2\\FazendasUrbanas\\visual\\FazendaUrbana\\FazendaUrbana\\BD.cs",
+              "RelativeDocumentMoniker": "FazendaUrbana\\BD.cs",
+              "ToolTip": "C:\\Users\\23yj\\Documents\\ADS\\pim_2\\FazendasUrbanas\\visual\\FazendaUrbana\\FazendaUrbana\\BD.cs",
+              "RelativeToolTip": "FazendaUrbana\\BD.cs",
+              "ViewState": "AQIAABkAAAAAAAAAAAAiwDYAAAA0AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-26T19:36:30.599Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Produtor.cs",
+              "DocumentMoniker": "C:\\Users\\23yj\\Documents\\ADS\\pim_2\\FazendasUrbanas\\visual\\FazendaUrbana\\FazendaUrbana\\Produtor.cs",
+              "RelativeDocumentMoniker": "FazendaUrbana\\Produtor.cs",
+              "ToolTip": "C:\\Users\\23yj\\Documents\\ADS\\pim_2\\FazendasUrbanas\\visual\\FazendaUrbana\\FazendaUrbana\\Produtor.cs",
+              "RelativeToolTip": "FazendaUrbana\\Produtor.cs",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAiwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-25T10:12:33.269Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\23yj\\Documents\\ADS\\pim_2\\FazendasUrbanas\\visual\\FazendaUrbana\\FazendaUrbana\\Program.cs",
+              "RelativeDocumentMoniker": "FazendaUrbana\\Program.cs",
+              "ToolTip": "C:\\Users\\23yj\\Documents\\ADS\\pim_2\\FazendasUrbanas\\visual\\FazendaUrbana\\FazendaUrbana\\Program.cs",
+              "RelativeToolTip": "FazendaUrbana\\Program.cs",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAAAC8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-22T22:25:11.043Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
