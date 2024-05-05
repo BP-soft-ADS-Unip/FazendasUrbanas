@@ -14,11 +14,19 @@ namespace FazendaUrbana
 		public string Senha { get; set; }
 
 		public void status()
-			{
-				Console.WriteLine("Nome: {0}", Nome);
-				Console.WriteLine("Email: {0}", Email);
-				Console.WriteLine("Celular: {0}", Celular);
-			}
+		{
+			Console.WriteLine("Nome: {0}", Nome);
+			Console.WriteLine("Email: {0}", Email);
+			Console.WriteLine("Celular: {0}", Celular);
+		}
+
+		/*public string[] lista_prod() // lista de cada atributo com sua instanciação(valor) e o último é a quantidade de atributos de tipo inteiro
+		{
+			string[] lista = new string[] { "Email", Email, "Nome", Nome, "Celular", Celular, "Senha", Senha, "0" };
+			return lista;
+
+
+		}
 
 		public int login()
 		{
@@ -64,7 +72,7 @@ namespace FazendaUrbana
 				
             
 			
-		}
+		}*/
 
 
 	}
