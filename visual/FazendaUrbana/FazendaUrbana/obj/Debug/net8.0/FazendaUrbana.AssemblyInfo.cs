@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FazendaUrbana")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b535dc91d9ae44f181668772a3ea358434f27fef")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c816ba697d1949b7c1c27da341092470a5f3914e")]
 [assembly: System.Reflection.AssemblyProductAttribute("FazendaUrbana")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FazendaUrbana")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

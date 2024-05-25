@@ -10,13 +10,24 @@ namespace FazendaUrbana
     {
         
         public IdbUser DB { get; set; }
-        public UserController(IdbUser db)
+        public ICadastro Cadastro { get; set; }
+        public UserController(IdbUser db, ICadastro cadastro)
         {
             DB = db;
+            Cadastro = cadastro;
         }
 
 
         public void save(Produtor farm)
+        {
+            Produtor farmi = DB.select(Cadastro.put_email());
+            if (farmi.Email == null)
+            {
+                
+            }
+
+        }
+        /*public void save(Produtor farm)
         {
             Produtor farmi = DB.select(farm.Email);
             if (farmi.Email == null)
@@ -29,6 +40,6 @@ namespace FazendaUrbana
             {
                 farmi.status();
             }
-        }
+        }*/
     }
 }

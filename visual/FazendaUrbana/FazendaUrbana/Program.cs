@@ -14,14 +14,19 @@ namespace FazendaUrbana
             
                 
             Produtor teste = new Produtor();
-            teste.Email ="PAULOM@UNIP.BR"; //"MARCELINO@UNIP.BR";
+            /*teste.Email ="PAULOM@UNIP.BR"; //"MARCELINO@UNIP.BR";
             teste.Nome = "Paulo Modas";
             teste.Celular = "56369";
-            teste.Senha = "abc";
+            teste.Senha = "abc";*/
 
             //string e_mail = "MARCELINO@UNIP.BR";
+            ICadastro cadastro = new ConsoleCadastro();
+            //cadastro = cadastrar(teste);
+
             IdbUser user = new PostgreDbUser();
-            UserController bidu = new UserController(user);
+
+            UserController bidu = new UserController(user, cadastro);
+
             //teste = user.select(e_mail);
             bidu.save(teste);
             //teste.status();
