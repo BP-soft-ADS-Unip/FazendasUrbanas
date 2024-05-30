@@ -131,6 +131,15 @@ VALUES
 
 SELECT * FROM prodAgricola;
 
+ id |  nome
+----+--------
+  1 | ALFACE
+  2 | COUVE
+  3 | AGRIAO
+  4 | TOMATE
+  5 | QUIABO
+(5 linhas)
+
 // tabela plantio
 
 CREATE TABLE plantio (
@@ -214,23 +223,471 @@ CRETE TRIGGER atualizar_area_plantada
 	for each [row/statement] execute procedure soma_area();
 
 
+// trabalho em 27/05/2024
+/*DELETE FROM plantio;
+SELECT * FROM plantio;
+
+//
+WHERE NEW.plantio.id_propriedade = OLD.id;
+WHERE id = NEW.plantio.id_propriedade;
+WHERE NEW.id_propriedade FROM plantio = OLD.id;
+
+faltando entrada para tabela "plantio" na cláusula FROM
+LINHA 3: WHERE id = NEW.plantio.id_propriedade
+                    ^
+CONSULTA:  UPDATE propriedade
+SET area_plantada = NEW.plantio.area + OLD.area_plantada
+WHERE id = NEW.plantio.id_propriedade
+CONTEXTO:  função PL/pgSQL somar_area() linha 3 em comando SQL
+fazendau=!#
+fazendau=!# SELECT * FROM plantio;
+ERRO:  transação atual foi interrompida, comandos ignorados até o fim do bloco de transação
+*/
+
+
+
+
+
+
+BEGIN;
+
 CREATE OR REPLACE FUNCTION somar_area()
-RETURNS trigger
-AS $$
+RETURNS trigger AS
+$$
 	BEGIN
 		UPDATE propriedade
-		SET area_plantada = NEW.plantio.area + OLD.area_plantada
-		WHERE id = NEW.plantio.id_propriedade;
-		RETURN NULL;
+		SET area_plantada = area_plantada + NEW.area
+		WHERE id = NEW.id_propriedade;
+		RETURN NEW;
 	END;
-$$ LANGUAGE plpgsql;
+$$
+LANGUAGE plpgsql;
+
 
 CREATE TRIGGER atualizar_area_plantada
 AFTER INSERT ON plantio 
-	FOR EACH ROW EXECUTE PROCEDURE somar_area();
+	FOR EACH ROW
+	EXECUTE FUNCTION somar_area(); 
+
 
 INSERT INTO plantio (data_plantio, area, id_propriedade, id_prodAgricola)
 VALUES
 ('2024-01-01 08:00:00', 2, 3, 1),
-(CURRENT_TIMESTAMP, 10, 1, 2),
-('2024-02-02 18:20:00', 25, 3, 1);
+(CURRENT_TIMESTAMP, 10, 1, 2);
+
+SELECT * FROM plantio;
+ id |        data_plantio        | area | id_propriedade | id_prodagricola
+----+----------------------------+------+----------------+-----------------
+ 15 | 2024-01-01 08:00:00        |    2 |              3 |               1
+ 16 | 2024-05-27 14:54:00.611617 |   10 |              1 |               2
+ 23 | 2024-01-01 08:00:00        |    2 |              3 |               1
+ 24 | 2024-05-27 15:41:42.860301 |   10 |              1 |               2
+SELECT * FROM propriedade;
+ id | tamanho |     rua      | numero |     bairro      |     cidade     | estado |  email_proprietario  |    tipo     | area_plantada
+----+---------+--------------+--------+-----------------+----------------+--------+----------------------+-------------+---------------
+  2 |      15 | AURORA       |    135 | VILA TIBERIO    | RIBEIRAO PRETO | SP     | mariathereza@uol.com | HIDROPONIA  |             0
+  4 |       3 | SAUDADE      |     12 | PARAISO         | PETROPOLIS     | RJ     | maiara@gamil.com     | TRADICIONAL |             0
+  5 |       7 | PEDRO II     |     75 | CENTRO          | BELO HORIZONTE | MG     | MARCELINO@UNIP.BR    | TRADICIONAL |             0
+  6 |       9 | MINAS        |    789 | VILA TIBERIO    | CURITIBA       | PR     | poly@jis             | TRADICIONAL |             0
+  7 |      31 | CAXIAS       |     66 | CENTRO          | SÃO PAULO      | SP     | maiara@gamil.com     | TRADICIONAL |             0
+  8 |      10 | CARLOS GOMES |     38 | VILA AUGUSTA    | SÃO PAULO      | SP     | MARCELINO@UNIP.BR    | TRADICIONAL |             0
+  9 |       7 | SAUDADE      |    835 | CENTRO          | CAMPO GRANDE   | MS     | joaoc@bol.com        | TRADICIONAL |             0
+ 12 |       7 | 7            |    568 | CENTRO          | Jau            | SP     | marcio@lol.com       | HIDROPONIA  |             0
+ 13 |      33 | Goias        |     12 | Campos Elisieos | Serrana        | MA     | cidao_p@bol.com      | HIDROPONIA  |             0
+ 14 |      33 | Goias        |     12 | Campos Elisieos | Serrana        | MA     | cidao_p@bol.com      | HIDROPONIA  |             0
+  3 |       5 | GOIAS        |    935 | NOVA ALINÇA     | CAMPINAS       | SP     | marcio@lol.com       | TRADICIONAL |             2
+  1 |      25 | AURORA       |     35 | VILA TIBERIO    | RIBEIRAO PRETO | SP     | MARCELINO@UNIP.BR    | HIDROPONIA  |            10
+//ROLLBACK;
+COMMIT;
+
+//trabalho em 28/05/2024
+// verificando a estrutura de data_plantio
+\d plantio;
+                                             Tabela "public.plantio"
+     Coluna      |            Tipo             | OrdenaþÒo | Pode ser nulo |               PadrÒo
+-----------------+-----------------------------+-----------+---------------+-------------------------------------
+ id              | integer                     |           | not null      | nextval('plantio_id_seq'::regclass)
+ data_plantio    | timestamp without time zone |           | not null      |
+ area            | integer                     |           | not null      |
+ id_propriedade  | integer                     |           |               |
+ id_prodagricola | integer                     |           |               |
+═ndices:
+    "plantio_pkey" PRIMARY KEY, btree (id)
+Restriþ§es de chave estrangeira:
+    "plantio_id_prodagricola_fkey" FOREIGN KEY (id_prodagricola) REFERENCES prodagricola(id)
+    "plantio_id_propriedade_fkey" FOREIGN KEY (id_propriedade) REFERENCES propriedade(id)
+Gatilhos:
+    atualizar_area_plantada AFTER INSERT ON plantio FOR EACH ROW EXECUTE FUNCTION somar_area()
+ --------------------------------------------------
+
+DELETE FROM plantio;
+SELECT * FROM plantio;
+ id | data_plantio | area | id_propriedade | id_prodagricola
+----+--------------+------+----------------+-----------------
+(0 linha)
+
+BEGIN;
+ALTER TABLE plantio DROP COLUMN area;
+SELECT * FROM plantio;
+ id | data_plantio | id_propriedade | id_prodagricola
+----+--------------+----------------+-----------------
+(0 linha)
+COMMIT;
+
+// INCLUIR UM CHECK NA TABELA plantio
+
+BEGIN;
+
+ALTER TABLE plantio
+ADD area INTEGER;
+
+\d plantio;
+
+//não consegui TENTAR ARRUMAR NA FUNÇÃO
+
+BEGIN;
+
+CREATE OR REPLACE FUNCTION somar_area()
+RETURNS trigger AS
+$$
+	BEGIN
+		IF (NEW.area > (SELECT (tamanho - area_plantada) FROM propriedade WHERE id = NEW.id_propriedade)) THEN
+			DELETE FROM plantio WHERE id = NEW.id_propriedade;
+			RAISE EXCEPTION 'Area a ser inserida maior que a disponivel para plantio';
+			
+		END IF;
+		UPDATE propriedade
+		SET area_plantada = area_plantada + NEW.area
+		WHERE id = NEW.id_propriedade;
+
+		RETURN NEW;
+	END;
+$$
+LANGUAGE plpgsql;
+
+(SELECT (tamanho - area_plantada) FROM propriedade WHERE id = NEW.id_propriedade)
+//TESTES ANTES DELETAR CAMPOS DE ÁREA PLANTADA EM id_propriedade
+
+BEGIN;
+UPDATE propriedade SET area_plantada = 0;
+SELECT * FROM propriedade;
+ id | tamanho |     rua      | numero |     bairro      |     cidade     | estado |  email_proprietario  |    tipo     | area_plantada
+----+---------+--------------+--------+-----------------+----------------+--------+----------------------+-------------+---------------
+  2 |      15 | AURORA       |    135 | VILA TIBERIO    | RIBEIRAO PRETO | SP     | mariathereza@uol.com | HIDROPONIA  |             0
+  4 |       3 | SAUDADE      |     12 | PARAISO         | PETROPOLIS     | RJ     | maiara@gamil.com     | TRADICIONAL |             0
+  5 |       7 | PEDRO II     |     75 | CENTRO          | BELO HORIZONTE | MG     | MARCELINO@UNIP.BR    | TRADICIONAL |             0
+  6 |       9 | MINAS        |    789 | VILA TIBERIO    | CURITIBA       | PR     | poly@jis             | TRADICIONAL |             0
+  7 |      31 | CAXIAS       |     66 | CENTRO          | SÃO PAULO      | SP     | maiara@gamil.com     | TRADICIONAL |             0
+  8 |      10 | CARLOS GOMES |     38 | VILA AUGUSTA    | SÃO PAULO      | SP     | MARCELINO@UNIP.BR    | TRADICIONAL |             0
+  9 |       7 | SAUDADE      |    835 | CENTRO          | CAMPO GRANDE   | MS     | joaoc@bol.com        | TRADICIONAL |             0
+ 12 |       7 | 7            |    568 | CENTRO          | Jau            | SP     | marcio@lol.com       | HIDROPONIA  |             0
+ 13 |      33 | Goias        |     12 | Campos Elisieos | Serrana        | MA     | cidao_p@bol.com      | HIDROPONIA  |             0
+ 14 |      33 | Goias        |     12 | Campos Elisieos | Serrana        | MA     | cidao_p@bol.com      | HIDROPONIA  |             0
+  3 |       5 | GOIAS        |    935 | NOVA ALINÇA     | CAMPINAS       | SP     | marcio@lol.com       | TRADICIONAL |             0
+  1 |      25 | AURORA       |     35 | VILA TIBERIO    | RIBEIRAO PRETO | SP     | MARCELINO@UNIP.BR    | HIDROPONIA  |             0
+
+SELECT * FROM plantio;
+
+BEGIN;
+INSERT INTO plantio (data_plantio, area, id_propriedade, id_prodAgricola)
+VALUES
+('2024-01-01 08:00:00', 2, 3, 1),
+(CURRENT_TIMESTAMP, 10, 1, 2);
+
+SELECT * FROM plantio;
+ id |        data_plantio        | id_propriedade | id_prodagricola | area
+----+----------------------------+----------------+-----------------+------
+ 27 | 2024-01-01 08:00:00        |              3 |               1 |    2
+ 28 | 2024-05-28 10:12:33.825601 |              1 |               2 |   10
+(2 linhas)
+
+SELECT * FROM propriedade;
+id | tamanho |     rua      | numero |     bairro      |     cidade     | estado |  email_proprietario  |    tipo     | area_plantada
+----+---------+--------------+--------+-----------------+----------------+--------+----------------------+-------------+---------------
+  2 |      15 | AURORA       |    135 | VILA TIBERIO    | RIBEIRAO PRETO | SP     | mariathereza@uol.com | HIDROPONIA  |             0
+  4 |       3 | SAUDADE      |     12 | PARAISO         | PETROPOLIS     | RJ     | maiara@gamil.com     | TRADICIONAL |             0
+  5 |       7 | PEDRO II     |     75 | CENTRO          | BELO HORIZONTE | MG     | MARCELINO@UNIP.BR    | TRADICIONAL |             0
+  6 |       9 | MINAS        |    789 | VILA TIBERIO    | CURITIBA       | PR     | poly@jis             | TRADICIONAL |             0
+  7 |      31 | CAXIAS       |     66 | CENTRO          | SÃO PAULO      | SP     | maiara@gamil.com     | TRADICIONAL |             0
+  8 |      10 | CARLOS GOMES |     38 | VILA AUGUSTA    | SÃO PAULO      | SP     | MARCELINO@UNIP.BR    | TRADICIONAL |             0
+  9 |       7 | SAUDADE      |    835 | CENTRO          | CAMPO GRANDE   | MS     | joaoc@bol.com        | TRADICIONAL |             0
+ 12 |       7 | 7            |    568 | CENTRO          | Jau            | SP     | marcio@lol.com       | HIDROPONIA  |             0
+ 13 |      33 | Goias        |     12 | Campos Elisieos | Serrana        | MA     | cidao_p@bol.com      | HIDROPONIA  |             0
+ 14 |      33 | Goias        |     12 | Campos Elisieos | Serrana        | MA     | cidao_p@bol.com      | HIDROPONIA  |             0
+  3 |       5 | GOIAS        |    935 | NOVA ALINÇA     | CAMPINAS       | SP     | marcio@lol.com       | TRADICIONAL |             2
+  1 |      25 | AURORA       |     35 | VILA TIBERIO    | RIBEIRAO PRETO | SP     | MARCELINO@UNIP.BR    | HIDROPONIA  |            10
+
+COMMIT;
+
+// MAIS TESTES - VERIFICANDO A SOMA DA area_plantada
+
+BEGIN;
+INSERT INTO plantio (data_plantio, area, id_propriedade, id_prodAgricola)
+VALUES
+('2024-01-01 08:00:00', 3, 3, 3),
+(CURRENT_TIMESTAMP, 10, 2, 2);
+
+SELECT * FROM plantio;
+
+SELECT * FROM propriedade;
+ id | tamanho |     rua      | numero |     bairro      |     cidade     | estado |  email_proprietario  |    tipo     | area_plantada
+----+---------+--------------+--------+-----------------+----------------+--------+----------------------+-------------+---------------
+  4 |       3 | SAUDADE      |     12 | PARAISO         | PETROPOLIS     | RJ     | maiara@gamil.com     | TRADICIONAL |             0
+  5 |       7 | PEDRO II     |     75 | CENTRO          | BELO HORIZONTE | MG     | MARCELINO@UNIP.BR    | TRADICIONAL |             0
+  6 |       9 | MINAS        |    789 | VILA TIBERIO    | CURITIBA       | PR     | poly@jis             | TRADICIONAL |             0
+  7 |      31 | CAXIAS       |     66 | CENTRO          | SÃO PAULO      | SP     | maiara@gamil.com     | TRADICIONAL |             0
+  8 |      10 | CARLOS GOMES |     38 | VILA AUGUSTA    | SÃO PAULO      | SP     | MARCELINO@UNIP.BR    | TRADICIONAL |             0
+  9 |       7 | SAUDADE      |    835 | CENTRO          | CAMPO GRANDE   | MS     | joaoc@bol.com        | TRADICIONAL |             0
+ 12 |       7 | 7            |    568 | CENTRO          | Jau            | SP     | marcio@lol.com       | HIDROPONIA  |             0
+ 13 |      33 | Goias        |     12 | Campos Elisieos | Serrana        | MA     | cidao_p@bol.com      | HIDROPONIA  |             0
+ 14 |      33 | Goias        |     12 | Campos Elisieos | Serrana        | MA     | cidao_p@bol.com      | HIDROPONIA  |             0
+  1 |      25 | AURORA       |     35 | VILA TIBERIO    | RIBEIRAO PRETO | SP     | MARCELINO@UNIP.BR    | HIDROPONIA  |            10
+  3 |       5 | GOIAS        |    935 | NOVA ALINÇA     | CAMPINAS       | SP     | marcio@lol.com       | TRADICIONAL |             5
+  2 |      15 | AURORA       |    135 | VILA TIBERIO    | RIBEIRAO PRETO | SP     | mariathereza@uol.com | HIDROPONIA  |            10
+
+  // VERIFICANDO SE ACIONA O Gatilhos
+
+
+INSERT INTO plantio (data_plantio, area, id_propriedade, id_prodAgricola)
+VALUES
+('2024-01-01 08:00:00', 3, 3, 3),
+(CURRENT_TIMESTAMP, 10, 2, 2);
+
+SELECT * FROM plantio;
+
+SELECT * FROM propriedade; 
+
+ERRO:  Area a ser inserida maior que a disponivel para plantio
+CONTEXTO:  função PL/pgSQL somar_area() linha 5 em RAISE
+fazendau=#
+fazendau=# SELECT * FROM plantio;
+ id |        data_plantio        | id_propriedade | id_prodagricola | area
+----+----------------------------+----------------+-----------------+------
+ 27 | 2024-01-01 08:00:00        |              3 |               1 |    2
+ 28 | 2024-05-28 10:12:33.825601 |              1 |               2 |   10
+ 29 | 2024-01-01 08:00:00        |              3 |               3 |    3
+ 30 | 2024-05-28 10:18:15.060152 |              2 |               2 |   10
+(4 linhas)
+
+
+fazendau=#
+fazendau=# SELECT * FROM propriedade;
+ id | tamanho |     rua      | numero |     bairro      |     cidade     | estado |  email_proprietario  |    tipo     | area_plantada
+----+---------+--------------+--------+-----------------+----------------+--------+----------------------+-------------+---------------
+  4 |       3 | SAUDADE      |     12 | PARAISO         | PETROPOLIS     | RJ     | maiara@gamil.com     | TRADICIONAL |             0
+  5 |       7 | PEDRO II     |     75 | CENTRO          | BELO HORIZONTE | MG     | MARCELINO@UNIP.BR    | TRADICIONAL |             0
+  6 |       9 | MINAS        |    789 | VILA TIBERIO    | CURITIBA       | PR     | poly@jis             | TRADICIONAL |             0
+  7 |      31 | CAXIAS       |     66 | CENTRO          | SÃO PAULO      | SP     | maiara@gamil.com     | TRADICIONAL |             0
+  8 |      10 | CARLOS GOMES |     38 | VILA AUGUSTA    | SÃO PAULO      | SP     | MARCELINO@UNIP.BR    | TRADICIONAL |             0
+  9 |       7 | SAUDADE      |    835 | CENTRO          | CAMPO GRANDE   | MS     | joaoc@bol.com        | TRADICIONAL |             0
+ 12 |       7 | 7            |    568 | CENTRO          | Jau            | SP     | marcio@lol.com       | HIDROPONIA  |             0
+ 13 |      33 | Goias        |     12 | Campos Elisieos | Serrana        | MA     | cidao_p@bol.com      | HIDROPONIA  |             0
+ 14 |      33 | Goias        |     12 | Campos Elisieos | Serrana        | MA     | cidao_p@bol.com      | HIDROPONIA  |             0
+  1 |      25 | AURORA       |     35 | VILA TIBERIO    | RIBEIRAO PRETO | SP     | MARCELINO@UNIP.BR    | HIDROPONIA  |            10
+  3 |       5 | GOIAS        |    935 | NOVA ALINÇA     | CAMPINAS       | SP     | marcio@lol.com       | TRADICIONAL |             5
+  2 |      15 | AURORA       |    135 | VILA TIBERIO    | RIBEIRAO PRETO | SP     | mariathereza@uol.com | HIDROPONIA  |            10
+
+// tudo ok!!!!!!
+
+
+
+ SELECT PL.id, PROP.tamanho, PROP.tipo, PROP.area_plantada, AGR.nome AS prod_agricola, PL.area, PL.data_plantio
+	 FROM plantio PL
+	 INNER JOIN propriedade PROP 
+	 ON (PROP.id = PL.id_propriedade)
+	 INNER JOIN prodAgricola AGR
+	 ON (AGR.id = PL.id_prodAgricola);
+
+ id | tamanho |    tipo     | area_plantada | prod_agricola | area |        data_plantio
+----+---------+-------------+---------------+---------------+------+----------------------------
+ 27 |       5 | TRADICIONAL |             5 | ALFACE        |    2 | 2024-01-01 08:00:00
+ 28 |      25 | HIDROPONIA  |            10 | COUVE         |   10 | 2024-05-28 10:12:33.825601
+ 29 |       5 | TRADICIONAL |             5 | AGRIAO        |    3 | 2024-01-01 08:00:00
+ 30 |      15 | HIDROPONIA  |            10 | COUVE         |   10 | 2024-05-28 10:18:15.060152
+// criação do view
+
+BEGIN;
+
+CREATE VIEW info_plantio AS 
+	SELECT PL.id, PROP.tamanho, PROP.tipo, PROP.area_plantada, AGR.nome AS prod_agricola, PL.area AS AREA_M2, PL.data_plantio
+		 FROM plantio PL
+		 INNER JOIN propriedade PROP 
+		 ON (PROP.id = PL.id_propriedade)
+		 INNER JOIN prodAgricola AGR
+		 ON (AGR.id = PL.id_prodAgricola);
+
+COMMIT;
+
+SELECT * FROM info_plantio;
+
+id | tamanho |    tipo     | area_plantada | prod_agricola | area_m2 |        data_plantio
+----+---------+-------------+---------------+---------------+---------+----------------------------
+ 27 |       5 | TRADICIONAL |             5 | ALFACE        |       2 | 2024-01-01 08:00:00
+ 28 |      25 | HIDROPONIA  |            10 | COUVE         |      10 | 2024-05-28 10:12:33.825601
+ 29 |       5 | TRADICIONAL |             5 | AGRIAO        |       3 | 2024-01-01 08:00:00
+ 30 |      15 | HIDROPONIA  |            10 | COUVE         |      10 | 2024-05-28 10:18:15.060152
+
+// VIEW OK (info_plantio)
+
+// criação da tabela colheita_estoque
+ id |        data_plantio        | id_propriedade | id_prodagricola | area
+----+----------------------------+----------------+-----------------+------
+ 27 | 2024-01-01 08:00:00        |              3 |               1 |    2
+ 28 | 2024-05-28 10:12:33.825601 |              1 |               2 |   10
+ 29 | 2024-01-01 08:00:00        |              3 |               3 |    3
+ 30 | 2024-05-28 10:18:15.060152 |              2 |               2 |   10
+(4 linhas)
+
+BEGIN;
+
+CREATE TABLE colheita_estoque (
+	id_colheita SERIAL PRIMARY KEY,
+	data_colheita TIMESTAMP NOT NULL,
+	quantidade INTEGER NOT NULL,
+	preco_unitario NUMERIC(10,2) NOT NULL CHECK (preco_unitario > 0),
+	id_plantio INTEGER REFERENCES plantio (id)
+	
+	);
+                                                Tabela "public.colheita_estoque"
+     Coluna     |            Tipo             | OrdenaþÒo | Pode ser nulo |                        PadrÒo
+----------------+-----------------------------+-----------+---------------+-------------------------------------------------------
+ id_colheita    | integer                     |           | not null      | nextval('colheita_estoque_id_colheita_seq'::regclass)
+ data_colheita  | timestamp without time zone |           | not null      |
+ quantidade     | integer                     |           | not null      |
+ preco_unitario | numeric(10,2)               |           | not null      |
+ id_plantio     | integer                     |           |               |
+═ndices:
+    "colheita_estoque_pkey" PRIMARY KEY, btree (id_colheita)
+Restriþ§es de verificaþÒo:
+    "colheita_estoque_preco_unitario_check" CHECK (preco_unitario > 0::numeric)
+Restriþ§es de chave estrangeira:
+    "colheita_estoque_id_plantio_fkey" FOREIGN KEY (id_plantio) REFERENCES plantio(id)
+
+
+fazendau=*# commit;
+COMMIT  // ok!!!!!
+
+// criação funçã e trigger para descontar na area_plantada da tabela propriedade
+
+BEGIN;
+
+CREATE OR REPLACE FUNCTION descontar_area()
+RETURNS trigger AS
+$$
+	BEGIN
+		
+		UPDATE propriedade PR
+		SET area_plantada = area_plantada - (
+
+			SELECT area
+			FROM plantio 
+			WHERE plantio.id = NEW.id_plantio)
+		FROM plantio, colheita_estoque
+		WHERE PR.id = plantio.id_propriedade AND plantio.id = NEW.id_plantio;
+		
+
+		RETURN NEW;
+	END;
+$$
+LANGUAGE plpgsql;
+
+commit;
+
+/* id | tamanho |     rua      | numero |     bairro      |     cidade     | estado |  email_proprietario  |    tipo     | area_plantada
+----+---------+--------------+--------+-----------------+----------------+--------+----------------------+-------------+---------------
+  4 |       3 | SAUDADE      |     12 | PARAISO         | PETROPOLIS     | RJ     | maiara@gamil.com     | TRADICIONAL |             0
+  5 |       7 | PEDRO II     |     75 | CENTRO          | BELO HORIZONTE | MG     | MARCELINO@UNIP.BR    | TRADICIONAL |             0
+  6 |       9 | MINAS        |    789 | VILA TIBERIO    | CURITIBA       | PR     | poly@jis             | TRADICIONAL |             0
+  7 |      31 | CAXIAS       |     66 | CENTRO          | SÃO PAULO      | SP     | maiara@gamil.com     | TRADICIONAL |             0
+  8 |      10 | CARLOS GOMES |     38 | VILA AUGUSTA    | SÃO PAULO      | SP     | MARCELINO@UNIP.BR    | TRADICIONAL |             0
+  9 |       7 | SAUDADE      |    835 | CENTRO          | CAMPO GRANDE   | MS     | joaoc@bol.com        | TRADICIONAL |             0
+
+   id |        data_plantio        | id_propriedade | id_prodagricola | area
+----+----------------------------+----------------+-----------------+------
+ 27 | 2024-01-01 08:00:00        |              3 |               1 |    2
+ 28 | 2024-05-28 10:12:33.825601 |              1 |               2 |   10
+ 29 | 2024-01-01 08:00:00        |              3 |               3 |    3
+ 30 | 2024-05-28 10:18:15.060152 |              2 |               2 |   10
+
+ERRO:  faltando entrada para tabela "plantio" na cláusula FROM*/
+
+/*UPDATE propriedade
+		SET area_plantada = area_plantada + NEW.area
+		WHERE id = NEW.id_propriedade;
+
+		RETURN NEW;*/
+
+
+CREATE TRIGGER descontar_area_plantada
+AFTER INSERT ON colheita_estoque 
+	FOR EACH ROW
+	EXECUTE FUNCTION descontar_area(); 
+
+COMMIT;
+
+
+// TESTAR AS TABELAS
+
+BEGIN;
+
+INSERT INTO colheita_estoque (data_colheita, quantidade, preco_unitario, id_plantio)
+VALUES
+(CURRENT_TIMESTAMP, 70, 5.10, 27);
+
+/*SELECT * FROM colheita_estoque;
+ id_colheita |       data_colheita        | quantidade | preco_unitario | id_plantio
+-------------+----------------------------+------------+----------------+------------
+           7 | 2024-05-29 10:23:10.776238 |         70 |           5.10 |         27
+(1 linha)
+
+SELECT * FROM info_plantio;
+ id | tamanho |    tipo     | area_plantada | prod_agricola | area_m2 |        data_plantio
+----+---------+-------------+---------------+---------------+---------+----------------------------
+ 27 |       5 | TRADICIONAL |             3 | ALFACE        |       2 | 2024-01-01 08:00:00
+ 28 |      25 | HIDROPONIA  |             8 | COUVE         |      10 | 2024-05-28 10:12:33.825601
+ 29 |       5 | TRADICIONAL |             3 | AGRIAO        |       3 | 2024-01-01 08:00:00
+ 30 |      15 | HIDROPONIA  |             8 | COUVE         |      10 | 2024-05-28 10:18:15.060152
+
+ UPDATE propriedade SET area_plantada = 10
+ WHERE id = 1 OR id = 2;*/
+// não funcionou pois descontou em todos os registros de area_plantada
+
+BEGIN;
+
+INSERT INTO colheita_estoque (data_colheita, quantidade, preco_unitario, id_plantio)
+VALUES
+(CURRENT_TIMESTAMP, 250, 7, 28);
+
+SELECT * FROM colheita_estoque;
+ id_colheita |       data_colheita        | quantidade | preco_unitario | id_plantio
+-------------+----------------------------+------------+----------------+------------
+           7 | 2024-05-29 10:23:10.776238 |         70 |           5.10 |         27
+          12 | 2024-05-29 11:16:13.525705 |        250 |           7.00 |         28
+
+SELECT * FROM info_plantio;
+ id | tamanho |    tipo     | area_plantada | prod_agricola | area_m2 |        data_plantio
+----+---------+-------------+---------------+---------------+---------+----------------------------
+ 27 |       5 | TRADICIONAL |             3 | ALFACE        |       2 | 2024-01-01 08:00:00
+ 28 |      25 | HIDROPONIA  |             0 | COUVE         |      10 | 2024-05-28 10:12:33.825601
+ 29 |       5 | TRADICIONAL |             3 | AGRIAO        |       3 | 2024-01-01 08:00:00
+ 30 |      15 | HIDROPONIA  |            10 | COUVE         |      10 | 2024-05-28 10:18:15.060152
+
+ COMMIT;
+
+ //incluir um view de info_colheita
+
+
+BEGIN;
+CREATE VIEW info_colheita AS
+	SELECT CE.id_colheita, PL.data_plantio, CE.data_colheita, AGR.nome AS prod_agricola, PL.area AS area_m2,
+	 CE.quantidade, (CE.quantidade/PL.area) AS rendimento, CE.preco_unitario
+		FROM colheita_estoque CE 
+		INNER JOIN plantio PL
+		ON (PL.id = CE.id_plantio)
+		INNER JOIN prodAgricola AGR
+		ON (AGR.id = PL.id_prodagricola);
+
+
+SELECT * FROM info_colheita;
+
+COMMIT;
