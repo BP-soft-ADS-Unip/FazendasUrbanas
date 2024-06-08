@@ -691,3 +691,297 @@ CREATE VIEW info_colheita AS
 SELECT * FROM info_colheita;
 
 COMMIT;
+
+
+
+// trabalho em 30/05/2024  - criação de mais 3 tabelas (cliente, pedido_venda, item_pedido)
+
+// criação tabela cliente
+
+BEGIN;
+CREATE TABLE cliente (
+	email VARCHAR(90) NOT NULL PRIMARY KEY,
+	celular VARCHAR(15) NOT NULL,
+	nome VARCHAR(90) NOT NULL,
+	senha VARCHAR(10) NOT NULL,
+	UNIQUE (email)
+);
+\d cliente;
+                       Tabela "public.cliente"
+ Coluna  |         Tipo          | OrdenaþÒo | Pode ser nulo | PadrÒo
+---------+-----------------------+-----------+---------------+--------
+ email   | character varying(90) |           | not null      |
+ celular | character varying(15) |           | not null      |
+ nome    | character varying(90) |           | not null      |
+ senha   | character varying(10) |           | not null      |
+═ndices:
+    "cliente_pkey" PRIMARY KEY, btree (email)
+
+COMMIT;
+
+
+BEGIN;
+INSERT INTO cliente VALUES (
+	'filinha@papai.com', '458278', 'Ana Castela', 'ana1');
+
+INSERT INTO cliente VALUES (
+	'meninao@uol.com', '450278', 'Carlos Augusto', 'carlos1');
+
+INSERT INTO cliente VALUES (
+	'cesarfilho@sbt.com', '1458278', 'Cesar Filho Augusto', 'cesar1');
+
+SELECT * FROM cliente;
+       email        | celular |        nome         |  senha
+--------------------+---------+---------------------+---------
+ filinha@papai.com  | 458278  | Ana Castela         | ana1
+ meninao@uol.com    | 450278  | Carlos Augusto      | carlos1
+ cesarfilho@sbt.com | 1458278 | Cesar Filho Augusto | cesar1
+
+// sucesso!!!!
+
+
+// criação da tabela pedido_venda
+
+
+BEGIN;
+CREATE TABLE pedido_venda (
+	id SERIAL PRIMARY KEY,
+	data TIMESTAMP NOT NULL,
+	valor NUMERIC(12,2) CHECK (valor >= 0),
+	email_cliente VARCHAR(90) REFERENCES cliente (email)
+
+);
+\d pedido_venda;
+
+                                            Tabela "public.pedido_venda"
+    Coluna     |            Tipo             | OrdenaþÒo | Pode ser nulo |                  PadrÒo
+---------------+-----------------------------+-----------+---------------+------------------------------------------
+ id            | integer                     |           | not null      | nextval('pedido_venda_id_seq'::regclass)
+ data          | timestamp without time zone |           | not null      |
+ valor         | numeric(12,2)               |           |               |
+ email_cliente | character varying(90)       |           |               |
+═ndices:
+    "pedido_venda_pkey" PRIMARY KEY, btree (id)
+Restriþ§es de verificaþÒo:
+    "pedido_venda_valor_check" CHECK (valor >= 0::numeric)
+Restriþ§es de chave estrangeira:
+    "pedido_venda_email_cliente_fkey" FOREIGN KEY (email_cliente) REFERENCES cliente(email)
+
+ COMMIT;
+
+
+
+// criação da tabela item_pedido
+BEGIN;
+CREATE TABLE item_pedido (
+	id SERIAL PRIMARY KEY,
+	quantidade INTEGER NOT NULL CHECK (quantidade >= 0),
+	id_estoque INTEGER REFERENCES colheita_estoque (id_colheita),
+	id_pedido INTEGER REFERENCES pedido_venda (id)
+);
+\d item_pedido;
+
+                                Tabela "public.item_pedido"
+   Coluna   |  Tipo   | OrdenaþÒo | Pode ser nulo |                 PadrÒo
+------------+---------+-----------+---------------+-----------------------------------------
+ id         | integer |           | not null      | nextval('item_pedido_id_seq'::regclass)
+ quantidade | integer |           | not null      |
+ id_estoque | integer |           |               |
+ id_pedido  | integer |           |               |
+═ndices:
+    "item_pedido_pkey" PRIMARY KEY, btree (id)
+Restriþ§es de verificaþÒo:
+    "item_pedido_quantidade_check" CHECK (quantidade >= 0)
+Restriþ§es de chave estrangeira:
+    "item_pedido_id_estoque_fkey" FOREIGN KEY (id_estoque) REFERENCES colheita_estoque(id_colheita)
+    "item_pedido_id_pedido_fkey" FOREIGN KEY (id_pedido) REFERENCES pedido_venda(id)
+
+COMMIT;
+
+// testando as tabelas ( antes de fazer o teste)
+// deve se fazer uma trigger para que a cada item pedido (quantidade) seja descontado na tabela colheita_estoque
+
+
+
+
+/*BEGIN;
+
+CREATE OR REPLACE FUNCTION descontar_area()
+RETURNS trigger AS
+$$
+	BEGIN
+		
+		UPDATE propriedade PR
+		SET area_plantada = area_plantada - (
+
+			SELECT area
+			FROM plantio 
+			WHERE plantio.id = NEW.id_plantio)
+		FROM plantio, colheita_estoque
+		WHERE PR.id = plantio.id_propriedade AND plantio.id = NEW.id_plantio;
+		
+
+		RETURN NEW;
+	END;
+$$
+LANGUAGE plpgsql;
+
+commit;
+
+CREATE TRIGGER descontar_area_plantada
+AFTER INSERT ON colheita_estoque 
+	FOR EACH ROW
+	EXECUTE FUNCTION descontar_area(); 
+
+COMMIT;*/
+
+// tarbalho em 05/06/2024  
+// verificando e testando tabelas existentes
+\dt;
+               Lista de relaþ§es
+ Esquema |       Nome       |  Tipo  |   Dono
+---------+------------------+--------+----------
+ public  | cliente          | tabela | postgres
+ public  | colheita_estoque | tabela | postgres
+ public  | item_pedido      | tabela | postgres
+ public  | pedido_venda     | tabela | postgres
+ public  | plantio          | tabela | postgres
+ public  | prodagricola     | tabela | postgres
+ public  | produtor         | tabela | postgres
+ public  | propriedade      | tabela | postgres
+
+ // sem necessidade de mexer em produtor e prodAgricola (são simples sem checks)
+
+ // arrumando o check da tabela id_propriedade
+ SELECT * FROM propriedade;
+  id | tamanho |     rua      | numero |     bairro      |     cidade     | estado |  email_proprietario  |    tipo     | area_plantada
+----+---------+--------------+--------+-----------------+----------------+--------+----------------------+-------------+---------------
+  4 |       3 | SAUDADE      |     12 | PARAISO         | PETROPOLIS     | RJ     | maiara@gamil.com     | TRADICIONAL |            -2
+  5 |       7 | PEDRO II     |     75 | CENTRO          | BELO HORIZONTE | MG     | MARCELINO@UNIP.BR    | TRADICIONAL |            -2
+  6 |       9 | MINAS        |    789 | VILA TIBERIO    | CURITIBA       | PR     | poly@jis             | TRADICIONAL |            -2
+  7 |      31 | CAXIAS       |     66 | CENTRO          | SÃO PAULO      | SP     | maiara@gamil.com     | TRADICIONAL |            -2
+  8 |      10 | CARLOS GOMES |     38 | VILA AUGUSTA    | SÃO PAULO      | SP     | MARCELINO@UNIP.BR    | TRADICIONAL |            -2
+  9 |       7 | SAUDADE      |    835 | CENTRO          | CAMPO GRANDE   | MS     | joaoc@bol.com        | TRADICIONAL |            -2
+ 12 |       7 | 7            |    568 | CENTRO          | Jau            | SP     | marcio@lol.com       | HIDROPONIA  |            -2
+ 13 |      33 | Goias        |     12 | Campos Elisieos | Serrana        | MA     | cidao_p@bol.com      | HIDROPONIA  |            -2
+ 14 |      33 | Goias        |     12 | Campos Elisieos | Serrana        | MA     | cidao_p@bol.com      | HIDROPONIA  |            -2
+  3 |       5 | GOIAS        |    935 | NOVA ALINÇA     | CAMPINAS       | SP     | marcio@lol.com       | TRADICIONAL |             3
+  2 |      15 | AURORA       |    135 | VILA TIBERIO    | RIBEIRAO PRETO | SP     | mariathereza@uol.com | HIDROPONIA  |            10
+  1 |      25 | AURORA       |     35 | VILA TIBERIO    | RIBEIRAO PRETO | SP     | MARCELINO@UNIP.BR    | HIDROPONIA  |             0
+------------------------------------------------------
+  // zerando todas as áreas plantadas
+
+  BEGIN;
+  UPDATE propriedade SET area_plantada = 0;
+  SELECT * FROM propriedade;
+   id | tamanho |     rua      | numero |     bairro      |     cidade     | estado |  email_proprietario  |    tipo     | area_plantada
+----+---------+--------------+--------+-----------------+----------------+--------+----------------------+-------------+---------------
+  4 |       3 | SAUDADE      |     12 | PARAISO         | PETROPOLIS     | RJ     | maiara@gamil.com     | TRADICIONAL |             0
+  5 |       7 | PEDRO II     |     75 | CENTRO          | BELO HORIZONTE | MG     | MARCELINO@UNIP.BR    | TRADICIONAL |             0
+  6 |       9 | MINAS        |    789 | VILA TIBERIO    | CURITIBA       | PR     | poly@jis             | TRADICIONAL |             0
+  7 |      31 | CAXIAS       |     66 | CENTRO          | SÃO PAULO      | SP     | maiara@gamil.com     | TRADICIONAL |             0
+  8 |      10 | CARLOS GOMES |     38 | VILA AUGUSTA    | SÃO PAULO      | SP     | MARCELINO@UNIP.BR    | TRADICIONAL |             0
+  9 |       7 | SAUDADE      |    835 | CENTRO          | CAMPO GRANDE   | MS     | joaoc@bol.com        | TRADICIONAL |             0
+ 12 |       7 | 7            |    568 | CENTRO          | Jau            | SP     | marcio@lol.com       | HIDROPONIA  |             0
+ 13 |      33 | Goias        |     12 | Campos Elisieos | Serrana        | MA     | cidao_p@bol.com      | HIDROPONIA  |             0
+ 14 |      33 | Goias        |     12 | Campos Elisieos | Serrana        | MA     | cidao_p@bol.com      | HIDROPONIA  |             0
+  3 |       5 | GOIAS        |    935 | NOVA ALINÇA     | CAMPINAS       | SP     | marcio@lol.com       | TRADICIONAL |             0
+  2 |      15 | AURORA       |    135 | VILA TIBERIO    | RIBEIRAO PRETO | SP     | mariathereza@uol.com | HIDROPONIA  |             0
+  1 |      25 | AURORA       |     35 | VILA TIBERIO    | RIBEIRAO PRETO | SP     | MARCELINO@UNIP.BR    | HIDROPONIA  |             0
+(12 linhas)
+
+COMMIT;
+//OK!!
+-----------------------
+// ARRUMAR O CHECK PARA impedir números negativos na area_plantada
+
+\d propriedade;
+                                           Tabela "public.propriedade"
+       Coluna       |         Tipo          | OrdenaþÒo | Pode ser nulo |                 PadrÒo
+--------------------+-----------------------+-----------+---------------+-----------------------------------------
+ id                 | integer               |           | not null      | nextval('propriedade_id_seq'::regclass)
+ tamanho            | integer               |           | not null      |
+ rua                | character varying(90) |           | not null      |
+ numero             | integer               |           |               |
+ bairro             | character varying(40) |           |               |
+ cidade             | character varying(40) |           | not null      |
+ estado             | character varying(2)  |           |               |
+ email_proprietario | character varying(90) |           |               |
+ tipo               | character varying(20) |           |               |
+ area_plantada      | integer               |           |               |
+═ndices:
+    "propriedade_pkey" PRIMARY KEY, btree (id)
+Restriþ§es de verificaþÒo:
+    "propriedade_check" CHECK (area_plantada <= tamanho)
+    "propriedade_tipo_check" CHECK (tipo::text = ANY (ARRAY['HIDROPONIA'::character varying, 'TRADICIONAL'::character varying]::text[]))
+Restriþ§es de chave estrangeira:
+    "propriedade_email_proprietario_fkey" FOREIGN KEY (email_proprietario) REFERENCES produtor(email)
+Referenciada por:
+    TABLE "plantio" CONSTRAINT "plantio_id_propriedade_fkey" FOREIGN KEY (id_propriedade) REFERENCES propriedade(id)
+
+
+
+BEGIN;
+ALTER TABLE propriedade
+DROP CONSTRAINT "propriedade_check";
+\d propriedade;
+-> ═ndices:
+	    "propriedade_pkey" PRIMARY KEY, btree (id)
+	Restriþ§es de verificaþÒo:
+	    "propriedade_tipo_check" CHECK (tipo::text = ANY (ARRAY['HIDROPONIA'::character varying, 'TRADICIONAL'::character varying]::text[]))
+	Restriþ§es de chave estrangeira:
+	    "propriedade_email_proprietario_fkey" FOREIGN KEY (email_proprietario) REFERENCES produtor(email)
+	Referenciada por:
+	    TABLE "plantio" CONSTRAINT "plantio_id_propriedade_fkey" FOREIGN KEY (id_propriedade) REFERENCES propriedade(id)
+COMMIT;
+    //ok
+
+BEGIN;
+ALTER TABLE propriedade
+ADD CONSTRAINT "propriedade_check" CHECK (area_plantada <= tamanho AND area_plantada >= 0);
+
+\d propriedade;
+COMMIT;
+
+//teste check
+UPDATE propriedade SET area_plantada = -3;
+->	ERRO:  a nova linha da relação "propriedade" viola a restrição de verificação "propriedade_check"
+	DETALHE:  Registro que falhou contém (4, 3, SAUDADE, 12, PARAISO, PETROPOLIS, RJ, maiara@gamil.com, TRADICIONAL, -3).
+
+
+// teste de área plantada em uma propriedade de tamanho 3 (tentativa de colocar area_plantada de 10 m²)
+UPDATE propriedade SET area_plantada = 10
+WHERE id = 4;
+-> 	ERRO:  a nova linha da relação "propriedade" viola a restrição de verificação "propriedade_check"
+	DETALHE:  Registro que falhou contém (4, 3, SAUDADE, 12, PARAISO, PETROPOLIS, RJ, maiara@gamil.com, TRADICIONAL, 10).
+//ok tudo perfeito!!
+
+----------------------------
+// vamos dropar os outros bancos de dados para realizar os testes de integração 
+// começamos com colheita_estoque
+SELECT * FROM colheita_estoque;
+ id_colheita |       data_colheita        | quantidade | preco_unitario | id_plantio
+-------------+----------------------------+------------+----------------+------------
+           7 | 2024-05-29 10:23:10.776238 |         70 |           5.10 |         27
+          12 | 2024-05-29 11:16:13.525705 |        250 |           7.00 |         28
+
+
+ BEGIN;
+ DELETE FROM colheita_estoque;
+ SELECT * FROM colheita_estoque;
+  id_colheita | data_colheita | quantidade | preco_unitario | id_plantio
+-------------+---------------+------------+----------------+------------
+(0 linha)
+COMMIT;
+
+// DELETANDO plantio
+SELECT * FROM plantio;
+
+BEGIN;
+DELETE FROM plantio;
+SELECT * FROM plantio;
+ id | data_plantio | id_propriedade | id_prodagricola | area
+----+--------------+----------------+-----------------+------
+(0 linha)
+COMMIT;
+// OK!!
