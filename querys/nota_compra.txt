@@ -1,0 +1,13 @@
+ pedido | dia | mes | ano  | nome_cliente
+--------+-----+-----+------+--------------
+      1 |   8 |   6 | 2024 | Ana Castela
+
+ id_pedido | quantidade | produto | preco_unitario | valor
+-----------+------------+---------+----------------+--------
+         1 |          5 | COUVE   |           6.00 |  30.00
+         1 |          2 | ALFACE  |           5.10 |  10.20
+         1 |         10 | TOMATE  |          12.00 | 120.00
+
+ total_compra
+--------------
+       160.20

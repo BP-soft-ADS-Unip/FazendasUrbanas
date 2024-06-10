@@ -194,4 +194,112 @@ ROLLBACK;
 
 //OK!!
 
+--------------------> vindo de view L80
 
+//antes vamos incluir um campo de status ('plantado' ou 'colhido') na tabela plantio 
+
+BEGIN;
+
+ALTER TABLE plantio
+ADD status VARCHAR(30) DEFAULT 'plantado'
+CHECK (status IN ('plantado', 'colhido'));
+
+\d plantio;
+     Coluna      |            Tipo             | OrdenaþÒo | Pode ser nulo |               PadrÒo
+-----------------+-----------------------------+-----------+---------------+-------------------------------------
+ id              | integer                     |           | not null      | nextval('plantio_id_seq'::regclass)
+ data_plantio    | timestamp without time zone |           | not null      |
+ id_propriedade  | integer                     |           |               |
+ id_prodagricola | integer                     |           |               |
+ area            | integer                     |           |               |
+ status          | character varying(30)       |           |               | 'plantado'::character varying
+═ndices:
+    "plantio_pkey" PRIMARY KEY, btree (id)
+Restriþ§es de verificaþÒo:
+    "plantio_check" CHECK (area > 0)
+    "plantio_status_check" CHECK (status::text = ANY (ARRAY['plantado'::character varying, 'colhido'::character varying]::text[]))
+Restriþ§es de chave estrangeira:
+    "plantio_id_prodagricola_fkey" FOREIGN KEY (id_prodagricola) REFERENCES prodagricola(id)
+    "plantio_id_propriedade_fkey" FOREIGN KEY (id_propriedade) REFERENCES propriedade(id)
+Referenciada por:
+    TABLE "colheita_estoque" CONSTRAINT "colheita_estoque_id_plantio_fkey" FOREIGN KEY (id_plantio) REFERENCES plantio(id)
+Gatilhos:
+    atualizar_area_plantada AFTER INSERT ON plantio FOR EACH ROW EXECUTE FUNCTION somar_area()
+
+SELECT * FROM plantio;
+ id |        data_plantio        | id_propriedade | id_prodagricola | area |  status
+----+----------------------------+----------------+-----------------+------+----------
+ 37 | 2024-01-01 08:00:00        |              3 |               1 |    2 | plantado
+ 38 | 2024-06-06 07:42:50.842622 |              1 |               2 |   10 | plantado
+ 40 | 2024-01-01 08:00:00        |              3 |               3 |    3 | plantado
+ 41 | 2024-06-06 16:13:00.019929 |              2 |               2 |   10 | plantado
+(4 linhas)
+
+COMMIT;
+
+// fazendo update para colocar as plantações que foram colhidas
+SELECT * FROM colheita_estoque;
+ id_colheita |       data_colheita        | quantidade | preco_unitario | id_plantio
+-------------+----------------------------+------------+----------------+------------
+          13 | 2024-06-07 05:56:29.687576 |         68 |           5.10 |         37<-
+          14 | 2024-06-08 09:58:02.293266 |         95 |           6.00 |         38<-
+
+BEGIN;
+
+UPDATE plantio 
+SET status = 'colhido'
+WHERE id < 40;
+
+SELECT * FROM plantio;
+ id |        data_plantio        | id_propriedade | id_prodagricola | area |  status
+----+----------------------------+----------------+-----------------+------+----------
+ 40 | 2024-01-01 08:00:00        |              3 |               3 |    3 | plantado
+ 41 | 2024-06-06 16:13:00.019929 |              2 |               2 |   10 | plantado
+ 37 | 2024-01-01 08:00:00        |              3 |               1 |    2 | colhido<-
+ 38 | 2024-06-06 07:42:50.842622 |              1 |               2 |   10 | colhido<-
+
+ COMMIT;
+
+//acertar função e trigget para ajustar o status apos insert em colheita
+
+--------------------------> ir para colheita_estoque
+
+-------------------------> vindo de colheita_estoque L337
+
+// inserir mais 3 plantios
+
+BEGIN;
+
+INSERT INTO plantio (data_plantio, area, id_propriedade, id_prodAgricola)
+VALUES
+('2024-04-01 08:00:00', 2, 5, 5),
+('2024-04-01 08:00:00', 3, 5, 4),
+(CURRENT_TIMESTAMP, 10, 2, 1);
+
+SELECT * FROM plantio;
+ id |        data_plantio        | id_propriedade | id_prodagricola | area |  status
+----+----------------------------+----------------+-----------------+------+----------
+ 37 | 2024-01-01 08:00:00        |              3 |               1 |    2 | colhido
+ 38 | 2024-06-06 07:42:50.842622 |              1 |               2 |   10 | colhido
+ 40 | 2024-01-01 08:00:00        |              3 |               3 |    3 | colhido
+ 41 | 2024-06-06 16:13:00.019929 |              2 |               2 |   10 | colhido
+ 43 | 2024-04-01 08:00:00        |              5 |               5 |    2 | plantado <- <-
+ 44 | 2024-04-01 08:00:00        |              5 |               4 |    3 | plantado <- <-
+ 45 | 2024-06-09 07:54:34.876319 |              2 |               1 |   10 | plantado <- <-
+
+ SELECT * FROM info_plantio;
+ id | tamanho |    tipo     | area_plantada | prod_agricola | area_m2 |        data_plantio
+----+---------+-------------+---------------+---------------+---------+----------------------------
+ 37 |       5 | TRADICIONAL |             0 | ALFACE        |       2 | 2024-01-01 08:00:00
+ 38 |      25 | HIDROPONIA  |             0 | COUVE         |      10 | 2024-06-06 07:42:50.842622
+ 40 |       5 | TRADICIONAL |             0 | AGRIAO        |       3 | 2024-01-01 08:00:00
+ 41 |      15 | HIDROPONIA  |            10 | COUVE         |      10 | 2024-06-06 16:13:00.019929
+ 43 |       7 | TRADICIONAL |             5 | QUIABO        |       2 | 2024-04-01 08:00:00			 <- <-
+ 44 |       7 | TRADICIONAL |             5 | TOMATE        |       3 | 2024-04-01 08:00:00			 <- <-
+ 45 |      15 | HIDROPONIA  |            10 | ALFACE        |      10 | 2024-06-09 07:54:34.876319	 <- <-
+(7 linhas)
+ COMMIT;
+
+  // ARRUMAR A QUESTÃO DA DATA MODIFICANDO A FUNÇÃO
+
+  --------------> ir para colheita_estoque
